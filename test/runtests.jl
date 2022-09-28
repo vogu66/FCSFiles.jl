@@ -11,13 +11,13 @@ using Test, HTTP
         cd(cwd*"/testdata")
         @info "Downloading FCS 2.0 file ..."
         io = open("testFCS2.fcs", "w")
-        r = HTTP.request("GET", "https://flowrepository.org/experiments/4/fcs_files/326/download", response_stream=io)
+        r = HTTP.request("GET", "https://github.com/eyurtsev/fcsparser/blob/master/fcsparser/tests/data/FlowCytometers/FACSCaliburHTS/Sample_Well_A02.fcs?raw=true", response_stream=io)
         close(io)
         cd(cwd)
         @info "Done."
 
         # load the FCS 2.0 file
-        @test_throws ErrorException @test_warn "FSC2.0 files are not guaranteed to work" flowrun = load("testdata/testFCS2.fcs")
+        @test_throws CapturedException @test_warn "FSC2.0 files are not guaranteed to work" flowrun = load("testdata/testFCS2.fcs")
 
         # cleanup
         rm("testdata/testFCS2.fcs", force=true)
